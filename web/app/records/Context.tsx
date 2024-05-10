@@ -13,8 +13,8 @@ interface RecordsPageContextValue {
   setSelected: (data: any) => void;
   filter: any | null;
   setFilter: (data: any) => void;
-  by: "hour" | "day" | "month";
-  setBy: (by: "hour" | "day" | "month") => void;
+  by: "live" | "hour" | "day" | "month";
+  setBy: (by: "live" | "hour" | "day" | "month") => void;
 
   records: {
     id: string;
@@ -37,6 +37,14 @@ export const RecordsPageProvider: React.FC<React.PropsWithChildren> = ({
   const [selected, setSelected] = React.useState(null);
   const [by, setBy] = React.useState<RecordsPageContextValue["by"]>("hour");
 
+  const [liveData, setLiveData] = React.useState<
+    {
+      id: string;
+      data: any;
+      date: string;
+    }[]
+  >([]);
+
   const supabase = createClient();
 
   let { data, isLoading } = useQuery({
@@ -50,6 +58,35 @@ export const RecordsPageProvider: React.FC<React.PropsWithChildren> = ({
       return result.data;
     },
   });
+
+  React.useEffect(() => {
+    const channel = supabase
+      .channel("realtime records")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "records",
+        },
+        (payload) => {
+          setLiveData((ld) => {
+            return [
+              ...ld,
+              {
+                id: payload.new.id,
+                data: payload.new,
+                date: moment(payload.new.created_at).toISOString(),
+              },
+            ];
+          });
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const records = aggregateBy(by, data || [], (key, entries, date) => ({
     id: key,
@@ -75,7 +112,7 @@ export const RecordsPageProvider: React.FC<React.PropsWithChildren> = ({
           });
         },
 
-        records,
+        records: by === "live" ? liveData : records,
       }}
     >
       {children}

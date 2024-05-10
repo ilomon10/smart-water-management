@@ -84,6 +84,30 @@ export default function Body() {
                   </Button>
                 </div>
               </div>
+              <TabsContent value="live">
+                <Card x-chunk="dashboard-05-chunk-3">
+                  <CardHeader className="px-7">
+                    <CardTitle>Chart of the Live Records</CardTitle>
+                    <CardDescription>
+                      Chart of recent data from your device.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Chart />
+                  </CardContent>
+                </Card>
+                <Card x-chunk="dashboard-05-chunk-3" className="mt-4">
+                  <CardHeader className="px-7">
+                    <CardTitle>Live Records</CardTitle>
+                    <CardDescription>
+                      Recent data from your device.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <RecordsTable />
+                  </CardContent>
+                </Card>
+              </TabsContent>
               <TabsContent value="hour">
                 <Card x-chunk="dashboard-05-chunk-3">
                   <CardHeader className="px-7">

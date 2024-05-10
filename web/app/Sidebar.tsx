@@ -2,15 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import {
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from "lucide-react";
+import { Home, LineChart, Package2, Settings } from "lucide-react";
 
 import {
   Tooltip,
@@ -22,7 +14,19 @@ import { usePathname } from "next/navigation";
 
 export const Sidebar = () => {
   const pathname = usePathname();
-  console.log(pathname);
+
+  const navigation = [
+    {
+      name: "Dashboard",
+      icon: <Home className="h-5 w-5" />,
+      path: "/",
+    },
+    {
+      name: "Records",
+      icon: <LineChart className="h-5 w-5" />,
+      path: "/records",
+    },
+  ];
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
       <nav className="flex flex-col items-ncenter gap-4 px-2 sm:py-4">
@@ -33,21 +37,23 @@ export const Sidebar = () => {
           <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
           <span className="sr-only">Acme Inc</span>
         </Link>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="/dashboard"
-              className={cn(
-                "text-muted-foreground flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8",
-                pathname === "/dashboard" && "bg-accent text-accent-foreground"
-              )}
-            >
-              <Home className="h-5 w-5" />
-              <span className="sr-only">Dashboard</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Dashboard</TooltipContent>
-        </Tooltip>
+        {navigation.map((item) => (
+          <Tooltip key={item.path}>
+            <TooltipTrigger asChild>
+              <Link
+                href={item.path}
+                className={cn(
+                  "text-muted-foreground flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8",
+                  pathname === item.path && "bg-accent text-accent-foreground"
+                )}
+              >
+                {item.icon}
+                <span className="sr-only">{item.name}</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">{item.name}</TooltipContent>
+          </Tooltip>
+        ))}
         {/* <Tooltip>
           <TooltipTrigger asChild>
             <Link
@@ -84,21 +90,6 @@ export const Sidebar = () => {
           </TooltipTrigger>
           <TooltipContent side="right">Customers</TooltipContent>
         </Tooltip> */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="/dashboard/records"
-              className={cn(
-                "text-muted-foreground flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8",
-                pathname === "/dashboard/records" && "bg-accent text-accent-foreground"
-              )}
-            >
-              <LineChart className="h-5 w-5" />
-              <span className="sr-only">Analytics</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Analytics</TooltipContent>
-        </Tooltip>
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
         <Tooltip>

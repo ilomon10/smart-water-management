@@ -1,8 +1,10 @@
-import { GeistSans } from "geist/font/sans";
-import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
+import { ReactQueryClientProvider } from "@/components/ReactQueryClientProvider";
+import { Header } from "./Header";
+import { Sidebar } from "./Sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { GeistSans } from "geist/font/sans";
+import "./globals.css";
+import { Authenticated } from "@/components/Authenticated";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -14,15 +16,15 @@ export const metadata = {
   description: "The fastest way to build apps with Next.js and Supabase",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={GeistSans.variable}>
-      <body className={cn("min-h-screen bg-background font-sans antialiased")}>
-        <TooltipProvider>{children}</TooltipProvider>
+    <html lang="en" className={GeistSans.className}>
+      <body className="bg-background text-foreground">
+        <main className="min-h-screen flex flex-col items-center">
+          <ReactQueryClientProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </ReactQueryClientProvider>
+        </main>
       </body>
     </html>
   );
