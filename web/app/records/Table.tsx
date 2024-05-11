@@ -60,10 +60,10 @@ export const RecordsTable: React.FC = () => {
                 {data.watt} W
               </TableCell>
               <TableCell className="hidden sm:table-cell">
-                {data.level} ℓ
+                {data.level} cm
               </TableCell>
               <TableCell className="hidden md:table-cell">
-                {data.flow} ℓ
+                {data.flow} ℓ/m
               </TableCell>
             </TableRow>
           ))}

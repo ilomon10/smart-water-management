@@ -8,6 +8,19 @@ import { useQuery } from "@tanstack/react-query";
 import { aggregateBy } from "./aggregateData";
 import { Database } from "@/utils/supabase/database.types";
 
+function map(
+  x: number,
+  in_min: number,
+  in_max: number,
+  out_min: number,
+  out_max: number
+): number {
+  return ((x - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+}
+
+const calculateVolume = (currentHeight: number, diameter: number) =>
+  Math.PI * diameter * map(currentHeight, 80, 0, 0, 80);
+
 interface RecordsPageContextValue {
   selected: any | null;
   setSelected: (data: any) => void;
@@ -70,6 +83,7 @@ export const RecordsPageProvider: React.FC<React.PropsWithChildren> = ({
           table: "records",
         },
         (payload) => {
+          console.log("RECEIVED", payload);
           setLiveData((ld) => {
             return [
               ...ld,

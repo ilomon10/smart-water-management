@@ -10,7 +10,7 @@ PZEM004Tv30 pzem(Serial2, 16, 17);
 auto timer = timer_create_default();
 
 // Wifi Parameter
-String serverName = "http://192.168.1.10:3001/api/push";
+String serverName = "https://smart-water-management.vercel.app/api/push";
 const char *ssid = "ZTE_2.4G_PxyyDY";
 const char *password = "Qz2uDcHz";
 
@@ -90,7 +90,7 @@ void setup()
   timer.every(2000, collectingData);
   timer.every(200, calculateRelay);
   timer.every(500, wifiStatusBlink);
-  timer.every(10000, sendData);
+  timer.every(1000*60*10, sendData);
   timer.every(1000, DEBUG_PARAMETER);
 }
 
