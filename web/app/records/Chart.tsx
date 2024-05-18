@@ -24,7 +24,7 @@ export const Chart: React.FC = () => {
                   <div className="grid grid-cols-1 gap-2">
                     <div className="flex flex-col">
                       <span className="text-[0.70rem] uppercase text-green-500">
-                        Energy Consump
+                        Energy Consump (W)
                       </span>
                       <span className="font-bold">
                         {payload[0].value}
@@ -32,13 +32,13 @@ export const Chart: React.FC = () => {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[0.70rem] uppercase text-blue-500">
-                        Water Level
+                        Water Level (cm)
                       </span>
                       <span className="font-bold">{payload[1].value}</span>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[0.70rem] uppercase text-lime-500">
-                        Water Flow
+                        Water Flow (ℓ)
                       </span>
                       <span className="font-bold">{payload[2].value}</span>
                     </div>

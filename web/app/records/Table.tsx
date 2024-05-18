@@ -63,7 +63,7 @@ export const RecordsTable: React.FC = () => {
                 {data.level} cm
               </TableCell>
               <TableCell className="hidden md:table-cell">
-                {data.flow} ℓ/m
+                {data.flow} ℓ
               </TableCell>
             </TableRow>
           ))}
