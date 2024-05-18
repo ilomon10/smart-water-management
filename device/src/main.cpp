@@ -90,7 +90,7 @@ void setup()
   timer.every(2000, collectingData);
   timer.every(200, calculateRelay);
   timer.every(500, wifiStatusBlink);
-  timer.every(1000*60*10, sendData);
+  timer.every(1000*60*5, sendData);
   timer.every(1000, DEBUG_PARAMETER);
 }
 

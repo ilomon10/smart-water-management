@@ -73,6 +73,17 @@ export const RecordsPageProvider: React.FC<React.PropsWithChildren> = ({
   });
 
   React.useEffect(() => {
+    if (!data) return;
+    setLiveData(() => {
+      return data.map((payload) => ({
+        id: payload.id,
+        data: payload,
+        date: moment(payload.created_at).toISOString(),
+      }));
+    });
+  }, [data]);
+
+  React.useEffect(() => {
     const channel = supabase
       .channel("realtime records")
       .on(
