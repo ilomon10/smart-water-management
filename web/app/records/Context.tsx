@@ -73,8 +73,9 @@ export const RecordsPageProvider: React.FC<React.PropsWithChildren> = ({
   });
 
   React.useEffect(() => {
-    if (!data) return;
+    if (data === null || data === undefined) return;
     setLiveData(() => {
+      if (data === null || data === undefined) return [];
       return data.map((payload) => ({
         id: payload.id,
         data: payload,
