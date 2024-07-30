@@ -24,9 +24,34 @@ import { RecordsTable } from "./Table";
 import { Details } from "./Details";
 import { useRecordsPageContext } from "./Context";
 import { Chart } from "./Chart";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import moment from "moment";
+import { SelectRangeEventHandler } from "react-day-picker";
 
 export default function Body() {
-  const { setSelected, setBy } = useRecordsPageContext();
+  const { filter, setFilter, setSelected, setBy } = useRecordsPageContext();
+
+  const selectedDate = {
+    from: moment(filter?.gt).toDate(),
+    to: moment(filter?.lt).toDate(),
+  };
+
+  const handleSelectedDateChange: SelectRangeEventHandler = (value) => {
+    let result: any = null;
+    if (value) {
+      const { from, to } = value;
+      result = {
+        gt: moment(from).toISOString(),
+        lt: moment(to).toISOString(),
+      };
+    }
+    setFilter(result);
+  };
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
@@ -49,8 +74,8 @@ export default function Body() {
                   {/* <TabsTrigger value="yearly">Yearly</TabsTrigger> */}
                 </TabsList>
                 <div className="ml-auto flex items-center gap-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                  <Popover>
+                    <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         size="sm"
@@ -59,21 +84,18 @@ export default function Body() {
                         <ListFilter className="h-3.5 w-3.5" />
                         <span className="sr-only sm:not-sr-only">Filter</span>
                       </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuCheckboxItem checked>
-                        Fulfilled
-                      </DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem>
-                        Declined
-                      </DropdownMenuCheckboxItem>
-                      <DropdownMenuCheckboxItem>
-                        Refunded
-                      </DropdownMenuCheckboxItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        initialFocus
+                        mode="range"
+                        defaultMonth={new Date()}
+                        selected={selectedDate}
+                        onSelect={handleSelectedDateChange}
+                        numberOfMonths={2}
+                      />
+                    </PopoverContent>
+                  </Popover>
                   <Button
                     size="sm"
                     variant="outline"

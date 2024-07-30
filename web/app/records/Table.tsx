@@ -30,7 +30,7 @@ export const RecordsTable: React.FC = () => {
             <div>Timeline</div>
           </TableHead>
           <TableHead className="hidden sm:table-cell py-2">
-            <div>Energy Consump</div>
+            <div>Power Consump</div>
           </TableHead>
           <TableHead className="hidden sm:table-cell py-2">
             <div>Water Level</div>

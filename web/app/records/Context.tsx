@@ -24,7 +24,10 @@ const calculateVolume = (currentHeight: number, diameter: number) =>
 interface RecordsPageContextValue {
   selected: any | null;
   setSelected: (data: any) => void;
-  filter: any | null;
+  filter: {
+    gt: string;
+    lt: string;
+  } | null;
   setFilter: (data: any) => void;
   by: "live" | "hour" | "day" | "month";
   setBy: (by: "live" | "hour" | "day" | "month") => void;
